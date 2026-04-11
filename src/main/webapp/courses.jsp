@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.util.List, model.Course, java.sql.*, model.DBConnection, model.Student" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <title>Available Courses</title>
 
 <style>
-
 body {
     font-family: 'Segoe UI', sans-serif;
     margin: 0;
@@ -85,45 +85,28 @@ h2 {
     font-size: 24px;
     font-weight: 700;
     color: #000;
-    margin-bottom: 6px;
-    letter-spacing: 0.5px;
 }
 
-.course-desc {
-    font-size: 14px;
-    color: #000 !important;
-    margin: 5px 0;
-}
-
-.course-extra {
-    font-size: 13px;
-    color: #000 !important;
-}
-
+.course-desc,
+.course-extra,
 .course-meta {
-    font-size: 13px;
     color: #000 !important;
+    font-size: 14px;
 }
 
 button {
     padding: 8px 18px;
     background: white;
-    color: #333;
     border: none;
     border-radius: 20px;
     cursor: pointer;
     font-weight: bold;
 }
 
-button:hover {
-    background: #eee;
-}
-
 .disabled-btn {
     background: gray;
     color: white;
 }
-
 </style>
 
 <script>
@@ -149,6 +132,18 @@ function handleEnroll(btn){
 </div>
 
 <div class="container">
+
+<%
+String msg = (String) session.getAttribute("msg");
+if(msg != null){
+%>
+<div style="width: 60%; margin: 15px auto; padding: 12px; background: #4CAF50; color: white; text-align: center; border-radius: 8px; font-weight: bold;">
+    <%= msg %>
+</div>
+<%
+session.removeAttribute("msg");
+}
+%>
 
 <h2>Available Courses</h2>
 <p>Explore tech courses and enhance your skills</p>

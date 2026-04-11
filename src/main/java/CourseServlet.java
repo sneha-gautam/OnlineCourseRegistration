@@ -22,14 +22,12 @@ public class CourseServlet extends HttpServlet {
             e.printStackTrace();
         }
     }
-    
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         
         HttpSession session = req.getSession();
         Student s = (Student) session.getAttribute("student");
 
-        // 🔒 Session check
         if(s == null){
             res.sendRedirect("login.jsp");
             return;
@@ -40,19 +38,21 @@ public class CourseServlet extends HttpServlet {
         try {
             RegistrationDAO dao = new RegistrationDAO();
 
-            // ✅ enroll logic
             boolean success = dao.registerCourse(s.getId(), courseId);
 
             if(success){
-                // ✅ redirect back to servlet (NOT JSP)
-                res.sendRedirect("courses?success=1");
+                session.setAttribute("msg", "Course Enrolled Successfully!");
             } else {
-                res.sendRedirect("courses?already=1");
+                session.setAttribute("msg", "Already Enrolled in this Course!");
             }
+
+            res.sendRedirect("courses");
 
         } catch (Exception e) {
             e.printStackTrace();
-            res.sendRedirect("courses?error=1");
+            session.setAttribute("msg", "Something went wrong!");
+            res.sendRedirect("courses");
         }
-    }
+    }      
+    
 }
